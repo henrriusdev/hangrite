@@ -10,13 +10,12 @@ import (
 )
 
 type Handlers struct {
-	config *config.Config
-	db     *gorm.DB
+	db *gorm.DB
 }
 
 func New(config *config.Config) *Handlers {
 	return &Handlers{
-		config: config,
+		db: config.DB,
 	}
 }
 
@@ -49,7 +48,7 @@ func (h *Handlers) GetCurrentUser(r *http.Request) *models.CurrentUser {
 	}
 
 	var user models.User
-	if err := h.config.DB.First(&user, userID).Error; err != nil {
+	if err := h.db.First(&user, userID).Error; err != nil {
 		return nil
 	}
 

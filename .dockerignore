@@ -1,0 +1,4 @@
+# flyctl launch added from .gitignore
+tailwindcss.exe
+tmp
+fly.toml

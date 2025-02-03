@@ -15,7 +15,7 @@ func (h *Handlers) ListPlayers(w http.ResponseWriter, r *http.Request) {
 	user := h.GetCurrentUser(r)
 
 	var playerList []models.Player
-	if err := h.config.DB.Find(&playerList).Error; err != nil {
+	if err := h.db.Find(&playerList).Error; err != nil {
 		http.Error(w, "Error al cargar peloteros", http.StatusInternalServerError)
 		return
 	}
@@ -51,7 +51,7 @@ func (h *Handlers) NewPlayer(w http.ResponseWriter, r *http.Request) {
 		EntryDate: entryDate,
 	}
 
-	if err := h.config.DB.Create(&player).Error; err != nil {
+	if err := h.db.Create(&player).Error; err != nil {
 		players.Form(models.PlayerForm{
 			ID:        player.ID,
 			Name:      player.Name,
@@ -76,7 +76,7 @@ func (h *Handlers) EditPlayer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var player models.Player
-	if err := h.config.DB.First(&player, id).Error; err != nil {
+	if err := h.db.First(&player, id).Error; err != nil {
 		http.Error(w, "Pelotero no encontrado", http.StatusNotFound)
 		return
 	}
@@ -110,7 +110,7 @@ func (h *Handlers) EditPlayer(w http.ResponseWriter, r *http.Request) {
 		EntryDate: entryDate,
 	}
 
-	if err := h.config.DB.Model(&player).Updates(updates).Error; err != nil {
+	if err := h.db.Model(&player).Updates(updates).Error; err != nil {
 		players.Form(models.PlayerForm{
 			ID:        player.ID,
 			Name:      updates.Name,
@@ -150,7 +150,7 @@ func (h *Handlers) GenerateCertificate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var player models.Player
-	if err := h.config.DB.First(&player, id).Error; err != nil {
+	if err := h.db.First(&player, id).Error; err != nil {
 		http.Error(w, "Pelotero no encontrado", http.StatusNotFound)
 		return
 	}
@@ -161,7 +161,7 @@ func (h *Handlers) GenerateCertificate(w http.ResponseWriter, r *http.Request) {
 		TrainingHours: r.PostForm.Get("training_hours"),
 	}
 
-	if err := h.config.DB.Create(&certificate).Error; err != nil {
+	if err := h.db.Create(&certificate).Error; err != nil {
 		http.Error(w, fmt.Sprintf("Error al generar la constancia: %v", err), http.StatusInternalServerError)
 		return
 	}

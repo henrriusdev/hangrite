@@ -9,14 +9,15 @@ import (
 )
 
 func main() {
+	config.LoadEnv()
 	db, err := database.Init()
 	if err != nil {
 		log.Fatal("Failed to initialize database:", err)
 	}
 
-	config := config.New(db)
+	conf := config.New(db)
 
-	app := app.New(config)
+	app := app.New(conf)
 	if err := app.Run(); err != nil {
 		log.Fatal("Failed to start server:", err)
 	}

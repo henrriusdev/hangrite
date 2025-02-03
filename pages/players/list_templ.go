@@ -183,22 +183,39 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 				}
 				ctx = templ.InitializeContext(ctx)
 				templ_7745c5c3_Err = ui.FormLabel(ui.FormLabelProps{
-					For:  "training_hours",
-					Text: "Hora de Entrenamiento",
+					For:  "start_time",
+					Text: "Horario Comprendido de entrenamiento",
 				}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " <div class=\"flex items-center space-x-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				templ_7745c5c3_Err = ui.Input(ui.InputProps{
 					Type:        ui.InputTypeText,
-					ID:          "training_hours",
-					Name:        "training_hours",
-					Placeholder: "Ej: 2:00 PM - 4:00 PM",
+					ID:          "start_time",
+					Name:        "start_time",
+					Placeholder: "Ej: 6 A.M.",
 				}).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<span class=\"text-sm\">hasta la/las</span>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = ui.Input(ui.InputProps{
+					Type:        ui.InputTypeText,
+					ID:          "end_time",
+					Name:        "end_time",
+					Placeholder: "Ej: 3 P.M.",
+				}).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -208,7 +225,7 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"flex justify-end space-x-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div class=\"flex justify-end space-x-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -216,7 +233,7 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<button type=\"button\" onclick=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<button type=\"button\" onclick=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -225,7 +242,7 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\" class=\"bg-muted text-muted-foreground px-4 py-2 rounded hover:bg-muted/90\">Cancelar</button> <button type=\"submit\" class=\"bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90\">Generar</button></div></form></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" class=\"bg-muted text-muted-foreground px-4 py-2 rounded hover:bg-muted/90\">Cancelar</button> <button type=\"submit\" class=\"bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90\">Generar</button></div></form></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -263,10 +280,30 @@ func hideCertificateModal() templ.ComponentScript {
 
 func handleCertificateSubmit() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_handleCertificateSubmit_e6cd`,
-		Function: `function __templ_handleCertificateSubmit_e6cd(){event.preventDefault();
+		Name: `__templ_handleCertificateSubmit_6af9`,
+		Function: `function __templ_handleCertificateSubmit_6af9(){event.preventDefault();
 	const form = event.target;
 	const formData = new FormData(form);
+	
+	// Combine start and end times into training_hours format
+	const startTime = formData.get('start_time');
+	const endTime = formData.get('end_time');
+	
+	// Determine whether to use 'la' or 'las' based on end time
+	const isOnePM = endTime.toUpperCase().trim() === "1 P.M." || 
+	                endTime.toUpperCase().trim() === "1 PM" || 
+	                endTime.toUpperCase().trim() === "1:00 P.M." || 
+	                endTime.toUpperCase().trim() === "1:00 PM";
+	
+	console.log('End time:', endTime);
+	console.log('Is 1 PM?:', isOnePM);
+	
+	const article = isOnePM ? "la" : "las";
+	console.log('Using article:', article);
+	
+	formData.delete('start_time');
+	formData.delete('end_time');
+	formData.append('training_hours', ` + "`" + `${startTime} hasta ${article} ${endTime}` + "`" + `);
 	
 	// Convert FormData to URLSearchParams
 	const params = new URLSearchParams();
@@ -307,8 +344,8 @@ func handleCertificateSubmit() templ.ComponentScript {
 		alert(error.message);
 	});
 }`,
-		Call:       templ.SafeScript(`__templ_handleCertificateSubmit_e6cd`),
-		CallInline: templ.SafeScriptInline(`__templ_handleCertificateSubmit_e6cd`),
+		Call:       templ.SafeScript(`__templ_handleCertificateSubmit_6af9`),
+		CallInline: templ.SafeScriptInline(`__templ_handleCertificateSubmit_6af9`),
 	}
 }
 

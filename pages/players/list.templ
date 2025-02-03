@@ -59,15 +59,24 @@ templ List(players []models.Player, user *models.CurrentUser) {
 						<input type="hidden" id="playerID" name="player_id"/>
 						@ui.FormItem(ui.FormItemProps{}) {
 							@ui.FormLabel(ui.FormLabelProps{
-								For:  "training_hours",
-								Text: "Hora de Entrenamiento",
+								For:  "start_time",
+								Text: "Horario Comprendido de entrenamiento",
 							})
-							@ui.Input(ui.InputProps{
-								Type:        ui.InputTypeText,
-								ID:          "training_hours",
-								Name:        "training_hours",
-								Placeholder: "Ej: 2:00 PM - 4:00 PM",
-							})
+							<div class="flex items-center space-x-2">
+								@ui.Input(ui.InputProps{
+									Type:        ui.InputTypeText,
+									ID:          "start_time",
+									Name:        "start_time",
+									Placeholder: "Ej: 6 A.M.",
+								})
+								<span class="text-sm">hasta la/las</span>
+								@ui.Input(ui.InputProps{
+									Type:        ui.InputTypeText,
+									ID:          "end_time",
+									Name:        "end_time",
+									Placeholder: "Ej: 3 P.M.",
+								})
+							</div>
 						}
 						<div class="flex justify-end space-x-2">
 							<button type="button" onclick={ hideCertificateModal() } class="bg-muted text-muted-foreground px-4 py-2 rounded hover:bg-muted/90">
@@ -98,6 +107,26 @@ script handleCertificateSubmit() {
 	event.preventDefault();
 	const form = event.target;
 	const formData = new FormData(form);
+	
+	// Combine start and end times into training_hours format
+	const startTime = formData.get('start_time');
+	const endTime = formData.get('end_time');
+	
+	// Determine whether to use 'la' or 'las' based on end time
+	const isOnePM = endTime.toUpperCase().trim() === "1 P.M." || 
+	                endTime.toUpperCase().trim() === "1 PM" || 
+	                endTime.toUpperCase().trim() === "1:00 P.M." || 
+	                endTime.toUpperCase().trim() === "1:00 PM";
+	
+	console.log('End time:', endTime);
+	console.log('Is 1 PM?:', isOnePM);
+	
+	const article = isOnePM ? "la" : "las";
+	console.log('Using article:', article);
+	
+	formData.delete('start_time');
+	formData.delete('end_time');
+	formData.append('training_hours', `${startTime} hasta ${article} ${endTime}`);
 	
 	// Convert FormData to URLSearchParams
 	const params = new URLSearchParams();

@@ -29,7 +29,7 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var user models.User
-	result := h.config.DB.Where("username = ?", username).First(&user)
+	result := h.db.Where("username = ?", username).First(&user)
 	if result.Error != nil {
 		form.HasError = true
 		form.ErrorMsg = "Usuario o contraseña incorrectos"
@@ -45,18 +45,22 @@ func (h *Handlers) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Create session
-	sess, err := session.Get(r)
-	if err != nil {
-		http.Error(w, "Error interno del servidor: "+err.Error(), http.StatusInternalServerError)
-		return
+	// Get store directly
+	store := session.GetStore()
+
+	// Delete any existing session
+	if oldSession, _ := store.Get(r, session.SessionName); oldSession != nil {
+		oldSession.Options.MaxAge = -1
+		oldSession.Save(r, w)
 	}
 
-	sess.Values[session.UserIDKey] = user.ID
-	sess.Values[session.UserRoleKey] = user.Role
-	err = session.Save(r, w, sess)
-	if err != nil {
-		http.Error(w, "Error interno del servidor: "+err.Error(), http.StatusInternalServerError)
+	// Create new session
+	newSession, _ := store.New(r, session.SessionName)
+	newSession.Values[session.UserIDKey] = user.ID
+	newSession.Values[session.UserRoleKey] = user.Role
+
+	if err := newSession.Save(r, w); err != nil {
+		http.Error(w, "Error saving session: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -86,7 +90,7 @@ func (h *Handlers) RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if username already exists
 	var existingUser models.User
-	result := h.config.DB.Where("username = ?", username).First(&existingUser)
+	result := h.db.Where("username = ?", username).First(&existingUser)
 	if result.Error == nil {
 		form.HasError = true
 		form.ErrorMsg = "El usuario ya existe"
@@ -108,8 +112,7 @@ func (h *Handlers) RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		Role:     models.RoleUser,
 	}
 
-	result = h.config.DB.Create(&newUser)
-	if result.Error != nil {
+	if err := h.db.Create(&newUser).Error; err != nil {
 		form.HasError = true
 		form.ErrorMsg = "Error al crear usuario"
 		auth.Register(form, user).Render(r.Context(), w)

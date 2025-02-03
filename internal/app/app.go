@@ -10,27 +10,28 @@ import (
 )
 
 type App struct {
-	config   *config.Config
+	conf     *config.Config
 	handlers *handlers.Handlers
 }
 
-func New(config *config.Config) *App {
-	session.Init(config.SessionSecret)
+func New(conf *config.Config) *App {
+	println(config.Env.SessionSecret)
+	session.Init([]byte(config.Env.SessionSecret))
 
 	return &App{
-		config:   config,
-		handlers: handlers.New(config),
+		conf:     conf,
+		handlers: handlers.New(conf),
 	}
 }
 
 func (a *App) Run() error {
-	fs := http.FileServer(http.Dir(a.config.Static))
+	fs := http.FileServer(http.Dir(config.Env.Static))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
 	a.setupRoutes()
 
-	log.Printf("Server starting on http://localhost%s\n", a.config.Port)
-	return http.ListenAndServe(a.config.Port, nil)
+	log.Printf("Server starting on http://0.0.0.0%s\n", config.Env.Port)
+	return http.ListenAndServe("0.0.0.0:8080", nil)
 }
 
 func (a *App) setupRoutes() {
@@ -43,7 +44,7 @@ func (a *App) setupRoutes() {
 	http.HandleFunc("/register", a.handlers.RequireAdmin(a.handlers.RegisterHandler))
 	http.HandleFunc("/auth/register", a.handlers.RequireAdmin(a.handlers.RegisterHandler))
 
-	// Player routes (protected by middleware)
+	// Player routes
 	http.HandleFunc("/players", a.handlers.RequireAdmin(a.handlers.ListPlayers))
 	http.HandleFunc("/players/new", a.handlers.RequireAdmin(a.handlers.NewPlayer))
 	http.HandleFunc("/players/{id}/edit", a.handlers.RequireAdmin(a.handlers.EditPlayer))
