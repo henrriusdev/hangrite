@@ -1,0 +1,17 @@
+package pages
+
+import (
+	"github.com/henrriusdev/hangrite/components"
+	"github.com/henrriusdev/hangrite/models"
+	ui "github.com/axzilla/templui/pkg/components"
+)
+
+templ Home(user *models.CurrentUser) {
+	@components.Layout("Inicio", user) {
+		<div class="container mx-auto px-4 py-8">
+			<h1 class="text-4xl font-bold text-primary">Bienvenido a Hangrite</h1>
+			<p class="mt-4 text-muted-foreground">Una aplicación moderna en Go con Templ y TemplUI para crear documentos</p>
+			@ui.Button(ui.ButtonProps{Text: "¡Hola!", Variant: ui.ButtonVariantDefault})
+		</div>
+	}
+}

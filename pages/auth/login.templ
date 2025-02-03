@@ -1,0 +1,61 @@
+package auth
+
+import (
+	"github.com/henrriusdev/hangrite/components"
+	ui "github.com/axzilla/templui/pkg/components"
+	"github.com/henrriusdev/hangrite/models"
+)
+
+templ Login(form models.LoginForm) {
+	@components.Layout("Iniciar Sesión", nil) {
+		<div class="max-w-md mx-auto">
+			<h1 class="text-2xl font-bold mb-6">Iniciar Sesión</h1>
+			<form method="POST" action="/auth/login" class="space-y-4">
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For: "username",
+						Text: "Usuario",
+					})
+					@ui.Input(ui.InputProps{
+						Type: ui.InputTypeText,
+						ID: "username",
+						Name: "username",
+						Value: form.Username,
+						Placeholder: "Ingrese su usuario",
+						HasError: form.HasError,
+					})
+					@ui.FormDescription(ui.FormDescriptionProps{}) {
+						Ingrese su nombre de usuario para acceder
+					}
+					if form.HasError {
+						@ui.FormMessage(ui.FormMessageProps{
+							Message: form.ErrorMsg,
+							Type: "error",
+						})
+					}
+				}
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For: "password",
+						Text: "Contraseña",
+					})
+					@ui.Input(ui.InputProps{
+						Type: ui.InputTypePassword,
+						ID: "password",
+						Name: "password",
+						Placeholder: "Ingrese su contraseña",
+						HasError: form.HasError,
+					})
+					@ui.FormDescription(ui.FormDescriptionProps{}) {
+						Ingrese su contraseña para acceder
+					}
+				}
+				@ui.Button(ui.ButtonProps{
+					Type: "submit",
+					Text: "Iniciar Sesión",
+					Class: "w-full",
+				})
+			</form>
+		</div>
+	}
+}

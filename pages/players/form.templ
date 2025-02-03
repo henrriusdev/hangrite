@@ -1,0 +1,115 @@
+package players
+
+import (
+	"fmt"
+	ui "github.com/axzilla/templui/pkg/components"
+	"github.com/henrriusdev/hangrite/components"
+	"github.com/henrriusdev/hangrite/models"
+)
+
+templ Form(form models.PlayerForm, isNew bool, user *models.CurrentUser) {
+	@components.Layout(isNewTitle(isNew), user) {
+		<div class="max-w-2xl mx-auto">
+			<h1 class="text-2xl font-bold mb-6">
+				if isNew {
+					Nuevo Pelotero
+				} else {
+					Editar Pelotero
+				}
+			</h1>
+			<form method="POST" action={ templ.SafeURL(isNewAction(isNew, int(form.ID))) } class="space-y-4">
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For:  "name",
+						Text: "Nombre",
+					})
+					@ui.Input(ui.InputProps{
+						Type:        ui.InputTypeText,
+						ID:          "name",
+						Name:        "name",
+						Value:       form.Name,
+						Placeholder: "Nombre del pelotero",
+						HasError:    form.HasError,
+					})
+					if form.HasError {
+						@ui.FormMessage(ui.FormMessageProps{
+							Message: form.ErrorMsg,
+							Type:    "error",
+						})
+					}
+				}
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For:  "id_number",
+						Text: "Cédula",
+					})
+					@ui.Input(ui.InputProps{
+						Type:        ui.InputTypeText,
+						ID:          "id_number",
+						Name:        "id_number",
+						Value:       form.IDNumber,
+						Placeholder: "Número de cédula",
+						HasError:    form.HasError,
+					})
+				}
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For:  "position",
+						Text: "Posición",
+					})
+					@ui.Input(ui.InputProps{
+						Type:        ui.InputTypeText,
+						ID:          "position",
+						Name:        "position",
+						Value:       form.Position,
+						Placeholder: "Posición del pelotero",
+						HasError:    form.HasError,
+					})
+				}
+				@ui.FormItem(ui.FormItemProps{}) {
+					@ui.FormLabel(ui.FormLabelProps{
+						For:  "entry_date",
+						Text: "Fecha de Entrada",
+					})
+					@ui.Input(ui.InputProps{
+						Type:     ui.InputTypeDate,
+						ID:       "entry_date",
+						Name:     "entry_date",
+						Value:    form.EntryDate.Format("2006-01-02"),
+						HasError: form.HasError,
+					})
+				}
+				<div class="flex justify-end space-x-2">
+					<a href="/players" class="bg-muted text-muted-foreground px-4 py-2 rounded hover:bg-muted/90">
+						Cancelar
+					</a>
+					@ui.Button(ui.ButtonProps{
+						Type: "submit",
+						Text: isNewButton(isNew),
+					})
+				</div>
+			</form>
+		</div>
+	}
+}
+
+func isNewButton(new bool) string {
+	if new {
+		return "Crear"
+	}
+	return "Guardar"
+}
+
+func isNewTitle(new bool) string {
+	if new {
+		return "Nuevo Pelotero"
+	}
+	return "Editar Pelotero"
+}
+
+func isNewAction(new bool, id int) string {
+	if new {
+		return "/players/new"
+	}
+	return fmt.Sprintf("/players/%d/edit", id)
+}

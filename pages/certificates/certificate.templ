@@ -1,0 +1,156 @@
+package certificates
+
+import (
+	"github.com/henrriusdev/hangrite/models"
+	"strings"
+)
+
+func getSpanishMonth(month string) string {
+	months := map[string]string{
+		"January":   "ENERO",
+		"February":  "FEBRERO",
+		"March":     "MARZO",
+		"April":     "ABRIL",
+		"May":       "MAYO",
+		"June":      "JUNIO",
+		"July":      "JULIO",
+		"August":    "AGOSTO",
+		"September": "SEPTIEMBRE",
+		"October":   "OCTUBRE",
+		"November":  "NOVIEMBRE",
+		"December":  "DICIEMBRE",
+	}
+	return months[month]
+}
+
+templ Certificate(player models.Player, certificate models.Certificate) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			<title>Constancia - { player.Name }</title>
+			<style type="text/css">
+                @import url(https://themes.googleusercontent.com/fonts/css?kit=fpjTOVmNbO4Lz34iLyptLU5sOsqza4scPUlExctaWh-jUS0hn0umzC0XmKC5aH3C);
+                @page {
+                    size: letter;
+                    margin: 0;
+                }
+                body {
+                    background-color: #ffffff;
+                    max-width: 447.1pt;
+                    padding: 72pt 85pt 70.7pt 80pt;
+                    font-family: "Times New Roman";
+                    margin: 0 auto;
+                    position: relative;
+                }
+                .background-image {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 406.47px;
+                    height: 332.53px;
+                    z-index: -1;
+                }
+                .header-logo {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .header-logo img {
+                    width: 179.43px;
+                    height: 144.87px;
+                }
+                .title {
+                    text-align: center;
+                    font-size: 18pt;
+                    margin-bottom: 20px;
+                }
+                .content {
+                    text-align: justify;
+                    font-size: 13.5pt;
+                    margin: 20px 5pt;
+                    line-height: 1.5;
+                }
+                .footer {
+                    text-align: center;
+                    margin-top: 40px;
+                }
+                .footer-text {
+                    font-family: Arial;
+                    font-weight: bold;
+                    margin: 5px 0;
+                }
+                .footer-image {
+                    margin-top: 20px;
+                    text-align: center;
+                }
+                .footer-image img {
+                    width: 496.34px;
+                    height: 151.85px;
+                }
+                .bold {
+                    font-weight: bold;
+                }
+                .date {
+                    margin: 20px 5pt;
+                    font-size: 14pt;
+                }
+                .center-image {
+                    text-align: center;
+                    margin: 20px 0;
+                }
+                .center-image img {
+                    width: 406.47px;
+                    height: 332.53px;
+                }
+                @media print {
+                    body {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    #print-button {
+                        display: none;
+                    }
+                }
+            </style>
+		</head>
+		<body>
+			<img class="background-image" alt="" src="/assets/images/certificates/image3.jpg"/>
+			<div class="header-logo">
+				<img alt="" src="/assets/images/certificates/image2.jpg"/>
+			</div>
+			<div class="title">Constancia</div>
+			<div class="content">
+				<span>Quien Suscribe: </span>
+				<span class="bold">HENRRY JOSE BOURGEOT LISSIR</span>
+				<span>, Titular de la Cédula de Identidad N° </span>
+				<span class="bold">V-8.599.738</span>
+				<span>. Representante legal de la </span>
+				<span class="bold">ACADEMIA DE BEISBOL HANG RITE C.A</span>
+				<span>, Ubicado en el ESTADIO DE SOROCAIMA II, CALLE MARIA CASTRO, Por medio de la presente hago constar que el Prospecto </span>
+				<span class="bold">{ strings.ToUpper(player.Name) }</span>
+				<span>, portador de la Cédula de Identidad <span class="bold">{ player.IDNumber }</span>. Se desempeña en esta Academia como ({ strings.ToUpper(player.Position) }), En el Horario Comprendido entre { certificate.TrainingHours }. </span>
+			</div>
+			<div class="date">
+				if spanishMonth := getSpanishMonth(certificate.IssueDate.Format("January")); spanishMonth != "" {
+					Constancia que se expide a petición de la parte interesada en Maracay, en fecha { certificate.IssueDate.Format("2") } de { spanishMonth } del { certificate.IssueDate.Format("2006") }.
+				}
+			</div>
+			<div class="footer">
+				<div class="footer-text">HENRRY JOSE BOURGEOT LISSIR</div>
+				<div class="footer-text">C.I: N° V-8.599.738</div>
+				<div class="footer-text">Celular: 0412-8908663</div>
+			</div>
+			<div class="footer-image">
+				<img alt="" src="/assets/images/certificates/image1.png"/>
+			</div>
+			<button id="print-button" style="position: fixed; top: 20px; right: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.print()">
+				Imprimir / Guardar PDF
+			</button>
+			<script>
+					// Auto-focus the print button
+					document.getElementById('print-button').focus();
+			</script>
+		</body>
+	</html>
+}
