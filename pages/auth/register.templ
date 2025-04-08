@@ -10,7 +10,7 @@ templ Register(form models.LoginForm, user *models.CurrentUser) {
 	@components.Layout("Registrarse", user) {
 		<div class="max-w-md mx-auto">
 			<h1 class="text-2xl font-bold mb-6">Registrarse</h1>
-			<form method="POST" action="/auth/register" class="space-y-4">
+			<form method="POST" action="auth/register" class="space-y-4">
 				@ui.FormItem(ui.FormItemProps{}) {
 					@ui.FormLabel(ui.FormLabelProps{
 						For: "username",

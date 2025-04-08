@@ -2,3 +2,4 @@
 tailwindcss.exe
 tmp
 fly.toml
+.env

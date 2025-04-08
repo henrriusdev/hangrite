@@ -12,7 +12,7 @@ templ Layout(title string, user *models.CurrentUser) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>{ title } - Hangrite</title>
-			<link href="/assets/css/output.css" rel="stylesheet"/>
+			<link href="assets/css/output.css" rel="stylesheet"/>
 			@helpers.AlpineJS()
 		</head>
 		<body>
@@ -26,15 +26,15 @@ templ Layout(title string, user *models.CurrentUser) {
 						}
 					</div>
 					<nav class="mt-4">
-						<a href="/" class="block px-4 py-2 hover:bg-accent">Inicio</a>
+						<a href="" class="block px-4 py-2 hover:bg-accent">Inicio</a>
 						if user == nil {
-							<a href="/login" class="block px-4 py-2 hover:bg-accent">Iniciar Sesión</a>
+							<a href="login" class="block px-4 py-2 hover:bg-accent">Iniciar Sesión</a>
 						} else {
 							if user.Role == models.RoleAdmin {
-								<a href="/register" class="block px-4 py-2 hover:bg-accent">Registrar Usuario</a>
-								<a href="/players" class="block px-4 py-2 hover:bg-accent">Peloteros</a>
+								<a href="register" class="block px-4 py-2 hover:bg-accent">Registrar Usuario</a>
+								<a href="players" class="block px-4 py-2 hover:bg-accent">Peloteros</a>
 							}
-							<form method="POST" action="/auth/logout" class="block">
+							<form method="POST" action="auth/logout" class="block">
 								<button type="submit" class="w-full text-left px-4 py-2 hover:bg-accent">Cerrar Sesión</button>
 							</form>
 						}

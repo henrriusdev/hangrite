@@ -10,7 +10,7 @@ templ Login(form models.LoginForm) {
 	@components.Layout("Iniciar Sesión", nil) {
 		<div class="max-w-md mx-auto">
 			<h1 class="text-2xl font-bold mb-6">Iniciar Sesión</h1>
-			<form method="POST" action="/auth/login" class="space-y-4">
+			<form method="POST" action="auth/login" class="space-y-4">
 				@ui.FormItem(ui.FormItemProps{}) {
 					@ui.FormLabel(ui.FormLabelProps{
 						For: "username",

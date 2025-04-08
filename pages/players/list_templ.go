@@ -48,7 +48,7 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"container mx-auto\"><div class=\"flex justify-between items-center mb-6\"><h1 class=\"text-2xl font-bold\">Peloteros</h1><a href=\"/players/new\" class=\"bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90\">Nuevo Pelotero</a></div><div class=\"bg-card rounded-lg shadow\"><table class=\"min-w-full\"><thead class=\"bg-muted\"><tr><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Nombre</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Cédula</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Posición</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Fecha de Entrada</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Acciones</th></tr></thead> <tbody class=\"divide-y divide-muted\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"container mx-auto\"><div class=\"flex justify-between items-center mb-6\"><h1 class=\"text-2xl font-bold\">Peloteros</h1><a href=\"players/new\" class=\"bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90\">Nuevo Pelotero</a></div><div class=\"bg-card rounded-lg shadow\"><table class=\"min-w-full\"><thead class=\"bg-muted\"><tr><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Nombre</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Cédula</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Posición</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Fecha de Entrada</th><th class=\"px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider\">Acciones</th></tr></thead> <tbody class=\"divide-y divide-muted\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -157,7 +157,7 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<form id=\"certificateForm\" method=\"POST\" action=\"/certificates/generate\" class=\"space-y-4\" onsubmit=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<form id=\"certificateForm\" method=\"POST\" action=\"certificates/generate\" class=\"space-y-4\" onsubmit=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -258,30 +258,30 @@ func List(players []models.Player, user *models.CurrentUser) templ.Component {
 
 func showCertificateModal(playerID string) templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_showCertificateModal_b7e0`,
-		Function: `function __templ_showCertificateModal_b7e0(playerID){console.log('Setting player ID:', playerID);
+		Name: `__templ_showCertificateModal_8a24`,
+		Function: `function __templ_showCertificateModal_8a24(playerID){console.log('Setting player ID:', playerID);
 	document.getElementById('certificateModal').classList.remove('hidden');
 	document.getElementById('playerID').value = playerID;
 }`,
-		Call:       templ.SafeScript(`__templ_showCertificateModal_b7e0`, playerID),
-		CallInline: templ.SafeScriptInline(`__templ_showCertificateModal_b7e0`, playerID),
+		Call:       templ.SafeScript(`__templ_showCertificateModal_8a24`, playerID),
+		CallInline: templ.SafeScriptInline(`__templ_showCertificateModal_8a24`, playerID),
 	}
 }
 
 func hideCertificateModal() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_hideCertificateModal_09d4`,
-		Function: `function __templ_hideCertificateModal_09d4(){document.getElementById('certificateModal').classList.add('hidden');
+		Name: `__templ_hideCertificateModal_592d`,
+		Function: `function __templ_hideCertificateModal_592d(){document.getElementById('certificateModal').classList.add('hidden');
 }`,
-		Call:       templ.SafeScript(`__templ_hideCertificateModal_09d4`),
-		CallInline: templ.SafeScriptInline(`__templ_hideCertificateModal_09d4`),
+		Call:       templ.SafeScript(`__templ_hideCertificateModal_592d`),
+		CallInline: templ.SafeScriptInline(`__templ_hideCertificateModal_592d`),
 	}
 }
 
 func handleCertificateSubmit() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_handleCertificateSubmit_6af9`,
-		Function: `function __templ_handleCertificateSubmit_6af9(){event.preventDefault();
+		Name: `__templ_handleCertificateSubmit_5d1d`,
+		Function: `function __templ_handleCertificateSubmit_5d1d(){event.preventDefault();
 	const form = event.target;
 	const formData = new FormData(form);
 	
@@ -344,8 +344,8 @@ func handleCertificateSubmit() templ.ComponentScript {
 		alert(error.message);
 	});
 }`,
-		Call:       templ.SafeScript(`__templ_handleCertificateSubmit_6af9`),
-		CallInline: templ.SafeScriptInline(`__templ_handleCertificateSubmit_6af9`),
+		Call:       templ.SafeScript(`__templ_handleCertificateSubmit_5d1d`),
+		CallInline: templ.SafeScriptInline(`__templ_handleCertificateSubmit_5d1d`),
 	}
 }
 

@@ -16,16 +16,8 @@ RUN mkdir -p /app/data
 COPY --from=builder /run-app /usr/local/bin/
 COPY assets /app/assets
 
-# Copy the .env file
-COPY .env /app/.env
-
 # Set working directory
 WORKDIR /app
-
-# Set environment variables
-ENV CONFIG_PATH=/app/.env
-ENV HOST="0.0.0.0"
-ENV PORT=":8080"
 
 # Expose the port
 EXPOSE 8080

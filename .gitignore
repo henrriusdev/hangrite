@@ -1,3 +1,17 @@
-/Constancia Geiberson Rodriguez.zip
 /tailwindcss.exe
 /tmp
+/.env
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfvars
+terraform/crash.log
+terraform/override.tf
+terraform/override.tf.json
+terraform/*.auto.tfvars
+terraform/*.auto.tfvars.json
+terraform/*.tfvars
+terraform/*.tfvars.json
+terraform/.terraformrc
+terraform/terraform.rc

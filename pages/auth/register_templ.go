@@ -47,7 +47,7 @@ func Register(form models.LoginForm, user *models.CurrentUser) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-md mx-auto\"><h1 class=\"text-2xl font-bold mb-6\">Registrarse</h1><form method=\"POST\" action=\"/auth/register\" class=\"space-y-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-md mx-auto\"><h1 class=\"text-2xl font-bold mb-6\">Registrarse</h1><form method=\"POST\" action=\"auth/register\" class=\"space-y-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

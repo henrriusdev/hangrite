@@ -47,7 +47,7 @@ func Layout(title string, user *models.CurrentUser) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " - Hangrite</title><link href=\"/assets/css/output.css\" rel=\"stylesheet\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " - Hangrite</title><link href=\"assets/css/output.css\" rel=\"stylesheet\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -78,23 +78,23 @@ func Layout(title string, user *models.CurrentUser) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><nav class=\"mt-4\"><a href=\"/\" class=\"block px-4 py-2 hover:bg-accent\">Inicio</a> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><nav class=\"mt-4\"><a href=\"\" class=\"block px-4 py-2 hover:bg-accent\">Inicio</a> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if user == nil {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<a href=\"/login\" class=\"block px-4 py-2 hover:bg-accent\">Iniciar Sesión</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<a href=\"login\" class=\"block px-4 py-2 hover:bg-accent\">Iniciar Sesión</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
 			if user.Role == models.RoleAdmin {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<a href=\"/register\" class=\"block px-4 py-2 hover:bg-accent\">Registrar Usuario</a> <a href=\"/players\" class=\"block px-4 py-2 hover:bg-accent\">Peloteros</a>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<a href=\"register\" class=\"block px-4 py-2 hover:bg-accent\">Registrar Usuario</a> <a href=\"players\" class=\"block px-4 py-2 hover:bg-accent\">Peloteros</a>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " <form method=\"POST\" action=\"/auth/logout\" class=\"block\"><button type=\"submit\" class=\"w-full text-left px-4 py-2 hover:bg-accent\">Cerrar Sesión</button></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " <form method=\"POST\" action=\"auth/logout\" class=\"block\"><button type=\"submit\" class=\"w-full text-left px-4 py-2 hover:bg-accent\">Cerrar Sesión</button></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
